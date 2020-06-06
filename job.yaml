@@ -1,0 +1,31 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: beam-demo
+  namespace: default
+spec:
+  type: Scala
+  mode: cluster
+  image: beam-sample
+  imagePullPolicy: Never
+  mainClass: org.apache.beam.examples.WordCount
+  mainApplicationFile: "local:///lib/word-count-beam-0.1-shaded.jar"
+  sparkVersion: "2.4.5"
+  arguments:
+    - "--runner=SparkRunner"
+    - "--inputFile=/data/input.txt"
+    - "--output=/data/output"
+
+  driver:
+    coreLimit: "1200m"
+    memory: "1024m"
+    labels:
+      version: 2.4.5
+    serviceAccount: spark
+
+  executor:
+    cores: 1
+    instances: 3
+    memory: "1024m"
+    labels:
+      version: 2.4.5
