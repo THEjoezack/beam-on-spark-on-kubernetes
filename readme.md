@@ -10,6 +10,8 @@ docker build . -t beam-sample
 
 kubectl apply -f job.yaml
 
+kubectl port-forward beam-demo-driver 4040:4040
+
 ## Resources
 
 https://github.com/GoogleCloudPlatform/spark-on-k8s-operator
