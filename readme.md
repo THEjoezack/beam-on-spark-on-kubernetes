@@ -1,4 +1,4 @@
-![Dag Visualization of the sample beam app on spark](https://github.com/THEjoezack/beam-on-spark-on-kubernetes/blob/master/Dockerfile/dag-visualization.png)
+![Dag Visualization of the sample beam app on spark](https://github.com/THEjoezack/beam-on-spark-on-kubernetes/raw/master/dag-visualization.png)
 
 # Deploying Beam apps to Spark on Kubernetes
 
