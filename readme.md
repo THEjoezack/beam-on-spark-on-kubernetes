@@ -1,9 +1,14 @@
+![Dag Visualization of the sample beam app on spark](https://github.com/THEjoezack/beam-on-spark-on-kubernetes/blob/master/Dockerfile/dag-visualization.png)
+
+# Deploying Beam apps to Spark on Kubernetes
+
+This repository is a simple example of how you can deploy the [Beam "Getting Started" beam app](https://beam.apache.org/get-started/wordcount-example/) on Spark on Kubernetes, via the open-source [GCP Operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator)
+
 ## Requirements
 
 - Docker
 - Kubernetes
 - Helm
-- Maven
 
 ## Install the Spark Operator with Helm
 
