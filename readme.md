@@ -2,7 +2,7 @@
 
 # Deploying Beam apps to Spark on Kubernetes
 
-This repository is a simple example of how you can deploy the [Beam "Getting Started" beam app](https://beam.apache.org/get-started/wordcount-example/) on Spark on Kubernetes, via the open-source [GCP Operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator)
+This is a simple example of how you can deploy the ["Getting Started" beam app](https://beam.apache.org/get-started/wordcount-example/) on Spark on Kubernetes, via the open-source [GCP Operator](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator).
 
 ## Requirements
 
@@ -11,6 +11,8 @@ This repository is a simple example of how you can deploy the [Beam "Getting Sta
 - Helm
 
 ## Install the Spark Operator with Helm
+
+This step installs a Spark operator that is responsible for processing job requests and starting the appropriate drivers and executors.
 
 ```bash
 helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
@@ -21,7 +23,7 @@ helm status sparkoperator --namespace spark-operator
 
 ## Build a sample Spark container
 
-There is a Dockerfile located in this directory that will bundle the sample beam application into a Spark container.
+There is a Dockerfile located in this directory that will compile the sample beam app, and bundle it into a container with Spark and some randomly generated data.
 
 ```bash
 docker build . -t beam-sample
@@ -31,13 +33,19 @@ docker build . -t beam-sample
 
 This command will submit a job to the Spark Operator, which is responsible for creating the driver and exectors.
 
+The job is named in this file as "beam-sample".
+
 ```bash
 kubectl apply -f job.yaml
 ```
 
 ## Monitor the job
 
-The we interface is running inside Kubernetes cluter, you have to port forward to access it.
+The we interface is running inside the Kubernetes cluter, you have to port forward to access it.
+
+The job runs quickly, and the driver shuts down afterwards so you have act quickly if you want to see the UI.
+
+The output generated in the job is lost when the executors shut down. In a real-world situation you would want to export the data to something like cloud storage or persistent volumes.
 
 ```bash
 # You should see a driver, and (temporarily) some executors
@@ -53,6 +61,14 @@ kubectl port-forward svc/beam-sample-ui-svc 4040:4040
 # after it says it's done :)
 kubectl delete SparkApplication beam-sample
 kubectl apply -f job.yaml
+```
+
+## Cleaning up
+
+All done? You can delete the operator and it will clean everything else up.
+
+```bash
+helm uninstall sparkoperator --namespace spark-operator
 ```
 
 ## Resources
