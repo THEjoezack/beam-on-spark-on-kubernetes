@@ -21,4 +21,5 @@ RUN mkdir /data
 RUN mkdir /data/output
 USER 0
 
-COPY --from=build /app/word-count-beam/pom.xml /data/input.txt
+RUN echo "Grabbing 1gb of random data, this will take a bit"
+RUN head -c 1G </dev/urandom >/data/input.txt

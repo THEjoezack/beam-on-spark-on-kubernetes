@@ -1,7 +1,7 @@
 apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
-  name: beam-demo
+  name: beam-sample
   namespace: default
 spec:
   type: Scala
@@ -17,15 +17,11 @@ spec:
     - "--output=/data/output"
 
   driver:
-    coreLimit: "1200m"
-    memory: "1024m"
     labels:
       version: 2.4.5
     serviceAccount: spark
 
   executor:
-    cores: 1
     instances: 3
-    memory: "1024m"
     labels:
       version: 2.4.5
