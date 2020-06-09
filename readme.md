@@ -17,7 +17,8 @@ This step installs a Spark operator that is responsible for processing job reque
 ```bash
 helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
 kubectl create namespace spark-operator
-helm install sparkoperator incubator/sparkoperator --namespace spark-operator --set sparkJobNamespace=default
+kubectl create namespace spark-jobs
+helm install sparkoperator incubator/sparkoperator --namespace spark-operator --set sparkJobNamespace=spark-jobs
 helm status sparkoperator --namespace spark-operator
 ```
 
@@ -36,7 +37,8 @@ This command will submit a job to the Spark Operator, which is responsible for c
 The job is named in this file as "beam-sample".
 
 ```bash
-kubectl apply -f job.yaml
+kubectl apply -f service-account.yaml -n spark-jobs
+kubectl apply -f job.yaml -n spark-jobs
 ```
 
 ## Monitor the job
@@ -50,17 +52,17 @@ The output generated in the job is lost when the executors shut down. In a real-
 ```bash
 # You should see a driver, and (temporarily) some executors
 # The status will show "Completed" once the job is complete
-kubectl get pods
-kubectl get svc
+kubectl get pods -n spark-jobs
+kubectl get svc -n spark-jobs
 
 # You have to be pretty fast though, once the job completes the UI is non-functional
 # (TODO, would love to change this)
-kubectl port-forward svc/beam-sample-ui-svc 4040:4040
+kubectl port-forward svc/beam-sample-ui-svc 4040:4040 -n spark-jobs
 
 # You can re-run your job by first deleting, but give the "delete" command a couple seconds
 # after it says it's done :)
-kubectl delete SparkApplication beam-sample
-kubectl apply -f job.yaml
+kubectl delete SparkApplication beam-sample -n spark-jobs
+kubectl apply -f job.yaml -n spark-jobs
 ```
 
 ## Cleaning up

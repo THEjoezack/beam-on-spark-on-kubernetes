@@ -1,20 +1,19 @@
-apiVersion: "sparkoperator.k8s.io/v1beta2"
+apiVersion: 'sparkoperator.k8s.io/v1beta2'
 kind: SparkApplication
 metadata:
   name: beam-sample
-  namespace: default
+  namespace: spark-jobs
 spec:
   type: Scala
   mode: cluster
   image: beam-sample
-  imagePullPolicy: Never
   mainClass: org.apache.beam.examples.WordCount
-  mainApplicationFile: "local:///lib/word-count-beam-0.1-shaded.jar"
-  sparkVersion: "2.4.5"
+  mainApplicationFile: 'local:///lib/word-count-beam-0.1-shaded.jar'
+  sparkVersion: '2.4.5'
   arguments:
-    - "--runner=SparkRunner"
-    - "--inputFile=/data/input.txt"
-    - "--output=/data/output"
+    - '--runner=SparkRunner'
+    - '--inputFile=/data/input.txt'
+    - '--output=/data/output'
 
   driver:
     labels:
